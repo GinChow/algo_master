@@ -63,17 +63,32 @@ class Node:
         self.children = children
 """
 
+#  class Solution:
+#      def preorder(self, root: 'Node') -> List[int]:
+#          if not root: return []
+#          result = []
+#
+#          def dfs(root):
+#              if not root: return
+#              result.append(root.val)
+#              for child in root.children:
+#                  dfs(child)
+#          dfs(root)
+#          return result
+
 class Solution:
     def preorder(self, root: 'Node') -> List[int]:
         if not root: return []
+        st = [root]
         result = []
 
-        def dfs(root):
-            if not root: return 
-            result.append(root.val)
-            for child in root.children:
-                dfs(child)
-        dfs(root)
+        while len(st) > 0:
+            node = st.pop()
+            if node:
+                for child in node.children[::-1]:
+                    if child: st.append(child)
+                st.append(node)
+                st.append(None)
+            else:
+                result.append(st.pop().val)
         return result
-        
-        
