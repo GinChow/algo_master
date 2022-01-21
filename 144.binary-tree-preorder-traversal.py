@@ -70,17 +70,38 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+#  class Solution:
+#      def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+#          if not root:
+#              return []
+#          result = []
+#          def dfs(root):
+#              if not root:
+#                  return
+#              result.append(root.val)
+#              dfs(root.left)
+#              dfs(root.right)
+#          dfs(root)
+#
+#          return result
+
 class Solution:
     def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         if not root:
             return []
+        st = [root]
         result = []
-        def dfs(root):
-            if not root:
-                return
-            result.append(root.val)
-            dfs(root.left)
-            dfs(root.right)
-        dfs(root)
 
+        while len(st) > 0:
+            node = st.pop()
+            if node:
+                #  mid -> left -> right
+                if node.right:
+                    st.append(node.right)
+                if node.left:
+                    st.append(node.left)
+                st.append(node)
+                st.append(None)
+            else:
+                result.append(st.pop().val)
         return result
