@@ -56,17 +56,36 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+#  class Solution:
+#      def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+#          if not root: return []
+#          result = []
+#          def dfs(root):
+#              if not root: return
+#              dfs(root.left)
+#              dfs(root.right)
+#              result.append(root.val)
+#          dfs(root)
+#
+#          return result
+                
 class Solution:
     def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         if not root: return []
+        st = [root]
         result = []
-        def dfs(root):
-            if not root: return
-            dfs(root.left)
-            dfs(root.right)
-            result.append(root.val)
-        dfs(root)
 
+        while len(st) > 0:
+            node = st.pop()
+            #  left -> right -> root
+            if node:
+                st.append(node)
+                st.append(None)
+                if node.right:
+                    st.append(node.right)
+                if node.left:
+                    st.append(node.left)
+            else:
+                result.append(st.pop().val)
         return result
-                
-                
