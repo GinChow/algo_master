@@ -70,21 +70,34 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+#  class Solution:
+#      def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+#          if not root:
+#              return []
+#          st = [root]
+#          result = []
+#
+#          while len(st)!=0:
+#              node = st.pop()
+#              if node != None:
+#                  if node.right: st.append(node.right)
+#                  st.append(node)
+#                  st.append(None) #  tag
+#                  if node.left: st.append(node.left)
+#              else:
+#                  result.append(st.pop().val)
+#          return result
+
 class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        if not root:
-            return []
-        st = [root]
         result = []
+        def dfs(root):
+            if not root:
+                return
+            dfs(root.left)
+            result.append(root.val)
+            dfs(root.right)
 
-        while len(st)!=0:
-            node = st.pop()
-            if node != None:
-                if node.right: st.append(node.right)
-                st.append(node)
-                st.append(None) #  tag
-                if node.left: st.append(node.left)
-            else:
-                result.append(st.pop().val)
+        dfs(root)
+
         return result
-
