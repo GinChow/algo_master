@@ -64,18 +64,35 @@ class Node:
         self.children = children
 """
 
+#  class Solution:
+#      def postorder(self, root: 'Node') -> List[int]:
+#          if not root: return []
+#
+#          result = []
+#
+#          def dfs(root):
+#              if not root: return
+#              for child in root.children:
+#                  dfs(child)
+#              result.append(root.val)
+#          dfs(root)
+#
+#          return result
+        
 class Solution:
     def postorder(self, root: 'Node') -> List[int]:
         if not root: return []
-
+        st = [root]
         result = []
 
-        def dfs(root):
-            if not root: return
-            for child in root.children:
-                dfs(child)
-            result.append(root.val)
-        dfs(root)
-
+        while len(st) > 0:
+            node = st.pop()
+            if node:
+                st.append(node)
+                st.append(None)
+                for child in node.children[::-1]:
+                    if child: st.append(child)
+            else:
+                result.append(st.pop().val)
+    
         return result
-        
