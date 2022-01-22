@@ -61,19 +61,47 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+#  recursive
+#  class Solution:
+#      def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+#          if not root:
+#              return False
+#          res_sum = []
+#          def traverse(node, sum_val):
+#              if not node:
+#                  return
+#              sum_val += node.val
+#              if not node.left and not node.right:
+#                  res_sum.append(sum_val)
+#              traverse(node.left, sum_val)
+#              traverse(node.right, sum_val)
+#          traverse(root, 0)
+#          return targetSum in res_sum
+
 #  iterative
 class Solution:
     def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
         if not root:
             return False
-        res_sum = []
-        def traverse(node, sum_val):
-            if not node:
-                return
-            sum_val += node.val
-            if not node.left and not node.right:
-                res_sum.append(sum_val)
-            traverse(node.left, sum_val)
-            traverse(node.right, sum_val)
-        traverse(root, 0)
-        return targetSum in res_sum
+        st = [root]
+        res = 0
+
+        #  post-order traversal
+        while len(st) > 0:
+            node = st.pop()
+            if node:
+                res += node.val
+                if not node.left and not node.right:
+                    if res == targetSum:
+                        return True
+                st.append(node)
+                st.append(None)
+                if node.right:
+                    st.append(node.right)
+                if node.left:
+                    st.append(node.left)
+            else:
+                res -= st.pop().val
+
+        return False
