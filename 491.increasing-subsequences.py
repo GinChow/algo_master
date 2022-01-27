@@ -41,26 +41,51 @@
 # 
 # 
 #
+#  class Solution:
+#      def findSubsequences(self, nums: List[int]) -> List[List[int]]:
+#          #  stupid dp solution
+#          dp_res = []
+#          start_idx = {}
+#
+#          #  remove duplicate
+#
+#          for i in range(len(nums)):
+#              if nums[i] not in start_idx:
+#                  start = 0
+#                  dp_res.append([nums[i]])
+#                  start_idx[nums[i]] = len(dp_res) - 1
+#                  end = len(dp_res) - 1
+#              else:
+#                  start = start_idx[nums[i]]
+#                  end = len(dp_res)
+#              for j in range(start, end):
+#                  if nums[i] >= dp_res[j][-1] and (dp_res[j] + [nums[i]] not in dp_res):
+#                      dp_res.append(dp_res[j] + [nums[i]])
+#          #  print(dp_res)
+#
+#          return [ele for ele in dp_res if len(ele) > 1]
+
 class Solution:
     def findSubsequences(self, nums: List[int]) -> List[List[int]]:
-        #  dp solution
-        dp_res = []
-        start_idx = {}
+        #  backtracking
+        res = []
+        path = []
 
-        #  remove duplicate
+        def backtracking(nums, path, start_idx):
+            if len(path) > 1:
+                res.append(path[:])
+            used = []
+            for i in range(start_idx, len(nums)):
+                if nums[i] not in used:
+                    used.append(nums[i])
+                else:
+                    continue
 
-        for i in range(len(nums)):
-            if nums[i] not in start_idx:
-                start = 0
-                dp_res.append([nums[i]])
-                start_idx[nums[i]] = len(dp_res) - 1
-                end = len(dp_res) - 1
-            else:
-                start = start_idx[nums[i]]
-                end = len(dp_res)
-            for j in range(start, end):
-                if nums[i] >= dp_res[j][-1] and (dp_res[j] + [nums[i]] not in dp_res):
-                    dp_res.append(dp_res[j] + [nums[i]])
-        #  print(dp_res)
+                if len(path) == 0 or nums[i] >= path[-1]:
+                    path.append(nums[i])
+                    backtracking(nums, path, i + 1)
+                    path.pop()
+            
 
-        return [ele for ele in dp_res if len(ele) > 1]
+        backtracking(nums, path, 0)
+        return res
