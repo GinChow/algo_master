@@ -70,10 +70,12 @@ class Solution:
         #  monotonic stack
         #  O(n)
 
+        #  前后加0，方便处理
         heights.append(0)
+        heights.insert(0, 0)
 
-        st = [-1]
-        i = 0
+        st = [0]
+        i = 1
         max_area = 0
         while i < len(heights):
             while len(st) > 0 and heights[i] < heights[st[-1]]:
@@ -86,15 +88,5 @@ class Solution:
                 max_area = max(max_area, h * w)
             st.append(i)
             i += 1
-        print(max_area)
-
-
-        #  #  clear stack
-        #  while len(st) > 0:
-        #      idx = st[0]
-        #      h = heights[idx]
-        #      w = st[-1] - idx + 1
-        #      max_area = max(max_area, h * w)
-        #      st.pop(0)
 
         return max_area
