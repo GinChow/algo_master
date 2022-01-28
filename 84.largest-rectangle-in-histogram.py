@@ -78,13 +78,10 @@ class Solution:
         i = 1
         max_area = 0
         while i < len(heights):
-            while len(st) > 0 and heights[i] < heights[st[-1]]:
+            while heights[i] < heights[st[-1]]:
                 idx = st.pop()
                 h = heights[idx]
-                if len(st) == 0:
-                    w = i
-                else:
-                    w = i - st[-1] - 1
+                w = i - st[-1] - 1
                 max_area = max(max_area, h * w)
             st.append(i)
             i += 1
